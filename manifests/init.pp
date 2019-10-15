@@ -10,7 +10,7 @@ define mhn_cowrie (
 ) {
 
   ensure_packages(
-    [python-virtualenv, git, gcc],
+    [gcc],
     {ensure => present},
   )
 

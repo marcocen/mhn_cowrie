@@ -15,8 +15,6 @@ describe 'mhn_cowrie' do
 
       it { is_expected.to compile }
       it { is_expected.to contain_class('supervisor') }
-      it { is_expected.to contain_package('python-virtualenv') }
-      it { is_expected.to contain_package('git') }
       it { is_expected.to contain_package('gcc') }
       it {
         is_expected.to contain_vcsrepo('/opt/cowrie').with(
