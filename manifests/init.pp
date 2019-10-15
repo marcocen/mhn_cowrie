@@ -8,7 +8,7 @@ define mhn_cowrie (
   Integer $port,
   String $user,
 ) {
-
+  if ! defined(Class['git']) { include ::git }
   ensure_packages(
     [gcc],
     {ensure => present},
