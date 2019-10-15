@@ -1,0 +1,30 @@
+{
+  "name": "mcenturion-mhn_cowrie",
+  "version": "0.1.0",
+  "author": "mcenturion",
+  "summary": "",
+  "license": "Apache-2.0",
+  "source": "",
+  "dependencies": [
+      { "name": "proletaryo-supervisor", "version_requirement": ">= 0.5.5 < 1.0.0" },
+      { "name": "puppetlabs-stdlib", "version_requirement": ">= 6.1.0 < 7.0.0" },
+      { "name": "puppetlabcs-vcsrepo", "version_requirement": ">= 3.0.0 < 4.0.0" }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.10.0 < 7.0.0"
+    }
+  ],
+  "pdk-version": "1.14.0",
+  "template-url": "pdk-default#1.14.0",
+  "template-ref": "1.14.0-0-g1bf3a4e"
+}
