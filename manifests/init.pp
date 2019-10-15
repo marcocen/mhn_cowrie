@@ -21,19 +21,20 @@ define mhn_cowrie (
     revision => '34f8464',
   }
   
-  supervisor::program {'cowrie':
-    ensure    => present,
-    enable    => true,
-    command   => '/opt/cowrie/bin/cowrie start',
-    directory => '/opt/cowrie',
-    user      => $user,
-    require   => Vcsrepo['/opt/cowrie'],
-  }
+  # supervisor::program {'cowrie':
+  #   ensure    => present,
+  #   enable    => true,
+  #   command   => '/opt/cowrie/bin/cowrie start',
+  #   directory => '/opt/cowrie',
+  #   user      => $user,
+  #   require   => Python::Virtualenv['/opt/cowrie'],
+  # }
 
   python::virtualenv {'/opt/cowrie':
-    ensure   => present,
-    version  => '2.7',
-    venv_dir => '/opt/cowrie/cowrie-env',
-    require  => Vcsrepo['/opt/cowrie'],    
+    ensure       => present,
+    version      => '2.7',
+    venv_dir     => '/opt/cowrie/cowrie-env',
+    requirements => '/opt/cowrie/requirements.txt',
+    require      => Vcsrepo['/opt/cowrie'],    
   }
 }
