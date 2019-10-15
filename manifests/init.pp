@@ -7,6 +7,7 @@
 define mhn_cowrie (
   Integer $port,
   String $user,
+  String $pip_proxy,
 ) {
   if ! defined(Class['git']) { include ::git }
   ensure_packages(
@@ -42,6 +43,7 @@ define mhn_cowrie (
     version      => '2.7',
     venv_dir     => '/opt/cowrie/cowrie-env',
     requirements => '/opt/cowrie/requirements.txt',
+    proxy        => $pip_proxy,
     require      => [
       Vcsrepo['/opt/cowrie'],
       Class['python'],
