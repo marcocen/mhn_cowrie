@@ -42,7 +42,6 @@ define mhn_cowrie (
     version      => '2.7',
     venv_dir     => '/opt/cowrie/cowrie-env',
     requirements => '/opt/cowrie/requirements.txt',
-    proxy        => 'http://proxy:3128',
     require      => [
       Vcsrepo['/opt/cowrie'],
       Class['python'],
