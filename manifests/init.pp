@@ -33,7 +33,7 @@ define mhn_cowrie (
   python::virtualenv {'/opt/cowrie':
     ensure   => present,
     version  => '2.7',
-    venv_dir => 'cowrie-env',
+    venv_dir => '/opt/cowrie/cowrie-env',
     require  => Vcsrepo['/opt/cowrie'],    
   }
 }
