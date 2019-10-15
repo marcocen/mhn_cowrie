@@ -30,11 +30,21 @@ define mhn_cowrie (
   #   require   => Python::Virtualenv['/opt/cowrie'],
   # }
 
+  class {'python':
+    version => '2.7',
+    ensure => present,
+    pip => 'present',
+    virtualenv => 'present',
+  }
+  
   python::virtualenv {'/opt/cowrie':
     ensure       => present,
     version      => '2.7',
     venv_dir     => '/opt/cowrie/cowrie-env',
     requirements => '/opt/cowrie/requirements.txt',
-    require      => Vcsrepo['/opt/cowrie'],    
+    require      => [
+      Vcsrepo['/opt/cowrie'],
+      Class['python'],
+    ],
   }
 }
