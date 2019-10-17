@@ -16,12 +16,18 @@ define mhn_cowrie (
     {ensure => present},
   )
 
+  file {$install_dir:
+    ensure => directory,
+    owner  => $user,
+  }
+  
   vcsrepo {$install_dir:
     ensure   => present,
     provider => git,
     source   => 'https://github.com/micheloosterhof/cowrie.git',
     revision => '34f8464',
     user     => $user,
+    require  => File[$install_dir],
   }
 
   # supervisor::program {'cowrie':
