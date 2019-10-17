@@ -5,14 +5,16 @@
 # @example
 #   mhn_cowrie { 'namevar': }
 define mhn_cowrie (
-  Integer $port,
   String $user,
-  String $hpf_server,
-  Integer $hpf_port,
+  Stdlib::Host $hpf_server,
   String $hpf_id,
-  String $hpf_secret
+  String $hpf_secret,
+  Stdlib::Port $port = 2222,
+  Stdlib::Port $hpf_port = 10000,
+  
 ) {
   $install_dir = '/opt/cowrie'
+  
   if ! defined(Class['git']) { include ::git }
   ensure_packages(
     [gcc],
