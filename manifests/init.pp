@@ -63,18 +63,12 @@ define mhn_cowrie (
     require => Vcsrepo[$install_dir],
   }
 
-  file_line {'AUTHBIND_ENABLED':
-    ensure => present,
-    path => "${install_dir}/bin/cowrie",
-    line => 'AUTHBIND_ENABLED=yes',
-    match => 'AUTHBIND_ENABLED=no',
-  }
-
   file_line {'DAEMONIZE':
     ensure => present,
     path => "${install_dir}/bin/cowrie",
     line => 'DAEMONIZE="-n"',
     match => 'DAEMONIZE=""',
+    require => Vcsrepo[$install_dir],
   }
   
   supervisor::program {'cowrie':
@@ -89,7 +83,7 @@ define mhn_cowrie (
     require        => [
       Exec['Install/update requirements'],
       File["${install_dir}/etc/cowrie.cfg"],
-      File_line['AUTHBIND_ENABLED','DAEMONIZE'],
+      File_line['DAEMONIZE'],
     ],
   }
   
