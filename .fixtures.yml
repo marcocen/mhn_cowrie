@@ -7,3 +7,6 @@ fixtures:
      supervisor: "proletaryo/supervisor"
      vcsrepo: "puppetlabs/vcsrepo"
      python: "puppet/python"
+     git: "puppetlabs/git"
+     epel: "stahnma/epel"
+     yumrepo_core: "puppetlabs/yumrepo_core"

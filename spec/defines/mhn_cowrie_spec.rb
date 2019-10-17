@@ -4,8 +4,10 @@ describe 'mhn_cowrie' do
   let(:title) { 'namevar' }
   let(:params) do
     {
-      'port' => 22,
-      'user' => 'cowrie',
+      :user => 'cowrie',
+      :hpf_server => 'mhn-server.local',
+      :hpf_id => 'f9a8854e-eaf4-11e9-954a-000c299b8253',
+      :hpf_secret => 'qC35iD9Hz339hjlf'
     }
   end
 
@@ -15,6 +17,7 @@ describe 'mhn_cowrie' do
 
       it { is_expected.to compile }
       it { is_expected.to contain_class('supervisor') }
+      it { is_expected.to contain_class('git') }
       it { is_expected.to contain_package('gcc') }
       it {
         is_expected.to contain_vcsrepo('/opt/cowrie').with(
@@ -24,6 +27,8 @@ describe 'mhn_cowrie' do
           'revision' => '34f8464',
         )
       }
+      it { is_expected.to contain_class('python') }
+      it { is_expected.to contain_file('/opt/cowrie/etc/cowrie.cfg') }
     end
   end
 end
