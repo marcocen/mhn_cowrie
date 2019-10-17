@@ -57,7 +57,7 @@ define mhn_cowrie (
     require => Exec['Create virtualenv'],
   }
 
-  file { "${instal_dir}/etc/cowrie.cfg":
+  file { "${install_dir}/etc/cowrie.cfg":
     ensure => present,
     content => template('mhn_cowrie/cowrie.cfg.erb'),
     require => Vcsrepo[$install_dir],
