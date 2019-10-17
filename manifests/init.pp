@@ -55,12 +55,18 @@ define mhn_cowrie (
   }
 
   supervisor::program {'cowrie':
-    ensure    => present,
-    enable    => true,
-    command   => '/opt/cowrie/bin/cowrie start',
-    directory => '/opt/cowrie',
-    user      => $user,
-    require   => Exec['Install/update requirements'],
+    ensure         => present,
+    enable         => true,
+    command        => "${install_dir}/bin/cowrie start",
+    directory      => $install_dir,
+    stdout_logfile => "${install_dir}/var/log/cowrie/cowrie.out",
+    stderr_logfile => "${install_dir}/var/log/cowrie/cowrie.err",
+    autostart      => true,
+    autorestart    => true,
+    stopasgroup    => true,
+    killasgroup    => true,
+    user           => $user,
+    require        => Exec['Install/update requirements'],
   }
   
 }
