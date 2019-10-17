@@ -2,9 +2,9 @@
   "name": "mcenturion-mhn_cowrie",
   "version": "0.1.0",
   "author": "mcenturion",
-  "summary": "",
+  "summary": "Module for adding a cowrie sensor to mhn",
   "license": "Apache-2.0",
-  "source": "",
+  "source": "https://github.com/marcocen/mhn_cowrie",
   "dependencies": [
       { "name": "proletaryo-supervisor", "version_requirement": ">= 0.5.5 < 1.0.0" },
       { "name": "puppetlabs-stdlib", "version_requirement": ">= 6.1.0 < 7.0.0" },
