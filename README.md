@@ -1,9 +1,5 @@
 # cowrie
 
-Welcome to your new module. A short overview of the generated parts can be found in the PDK documentation at https://puppet.com/pdk/latest/pdk_generating_modules.html .
-
-The README template below provides a starting point with details about what information to include in your README.
-
 #### Table of Contents
 
 1. [Description](#description)
@@ -17,31 +13,30 @@ The README template below provides a starting point with details about what info
 
 ## Description
 
-Briefly tell users why they might want to use your module. Explain what your module does and what kind of problems users can solve with it.
-
-This should be a fairly short description helps the user decide if your module is what they want.
+A module to add a cowrie honeypot 
 
 ## Setup
 
-### What cowrie affects **OPTIONAL**
+### What cowrie affects
 
-If it's obvious what your module touches, you can skip this section. For example, folks can probably figure out that your mysql_instance module affects their MySQL instances.
+This module ensures that git is installed, clones the cowrie repo and configures it. In doing so it ensures that python2.7, pip and virtualenv are installed; it also installs supervisord.
 
-If there's more that they should know about, though, this is the place to mention:
+### Setup Requirements 
 
-* Files, packages, services, or operations that the module will alter, impact, or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
+The supplied user is expected to be managed somewhere else, this module does not create any user.
 
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled, another module, etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps for upgrading, you might want to include an additional "Upgrading" section here.
+This module also does not manage firewall rules nor does it manage other software that may collide with the cowrie honeypot. For example, if you want cowrie to listen on port 22 you should disable ssh on that port elsewhere.
 
 ### Beginning with cowrie
 
-The very basic steps needed for a user to get the module up and running. This can include setup steps, if necessary, or it can be an example of the most basic use of the module.
+```
+mhn_cowrie{'cowrie':
+	user       => 'cowrie',
+	hpf_server => 'mhn.local',
+	hpf_id     => '91ded218-eaec-11e9-954a-000c299b8253',
+    hpf_secret => 'LId9U19VHuQOUnTU',
+}
+```
 
 ## Usage
 
