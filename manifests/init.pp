@@ -82,9 +82,9 @@ define mhn_cowrie (
     user           => $user,
     require        => [
       Exec['Install/update requirements'],
-      File["${install_dir}/etc/cowrie.cfg"],
       File_line['DAEMONIZE'],
     ],
+    subscribe => [File["${install_dir}/etc/cowrie.cfg"]],
   }
   
 }
