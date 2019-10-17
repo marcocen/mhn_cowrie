@@ -7,9 +7,8 @@
 define mhn_cowrie (
   Integer $port,
   String $user,
-  String $pip_proxy,
   String $hpf_server,
-  String $hpf_port,
+  Integer $hpf_port,
   String $hpf_id,
   String $hpf_secret
 ) {
