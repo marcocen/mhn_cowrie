@@ -42,6 +42,7 @@ define mhn_cowrie (
 
   exec {'Create virtualenv':
     command => 'virtualenv --python=python2.7 cowrie-env',
+    path    => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
     cwd     => $install_dir,
     unless  => "test -d ${install_dir}/cowrie-env",
     user    => $user,
