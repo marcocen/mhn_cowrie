@@ -48,7 +48,7 @@ define mhn_cowrie (
     cwd     => $install_dir,
     unless  => "test -d ${install_dir}/cowrie-env",
     user    => $user,
-    require => Vcsrepo[$install_dir],
+    require => [Vcsrepo[$install_dir],Class['python']],
   }
 
   exec {'Install/update requirements':
