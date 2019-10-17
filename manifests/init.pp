@@ -30,15 +30,6 @@ define mhn_cowrie (
     require  => File[$install_dir],
   }
 
-  # supervisor::program {'cowrie':
-  #   ensure    => present,
-  #   enable    => true,
-  #   command   => '/opt/cowrie/bin/cowrie start',
-  #   directory => '/opt/cowrie',
-  #   user      => $user,
-  #   require   => Python::Virtualenv['/opt/cowrie'],
-  # }
-
   class {'python':
     version    => '2.7',
     ensure     => present,
@@ -63,4 +54,13 @@ define mhn_cowrie (
     require => Exec['Create virtualenv'],
   }
 
+  supervisor::program {'cowrie':
+    ensure    => present,
+    enable    => true,
+    command   => '/opt/cowrie/bin/cowrie start',
+    directory => '/opt/cowrie',
+    user      => $user,
+    require   => Exec['Install/update requirements'],
+  }
+  
 }
