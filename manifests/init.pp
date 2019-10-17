@@ -9,19 +9,21 @@ define mhn_cowrie (
   String $user,
   String $pip_proxy,
 ) {
+  $install_dir = '/opt/cowrie'
   if ! defined(Class['git']) { include ::git }
   ensure_packages(
     [gcc],
     {ensure => present},
   )
 
-  vcsrepo {'/opt/cowrie':
+  vcsrepo {$install_dir:
     ensure   => present,
     provider => git,
     source   => 'https://github.com/micheloosterhof/cowrie.git',
     revision => '34f8464',
+    user     => $user,
   }
-  
+
   # supervisor::program {'cowrie':
   #   ensure    => present,
   #   enable    => true,
@@ -32,21 +34,18 @@ define mhn_cowrie (
   # }
 
   class {'python':
-    version => '2.7',
-    ensure => present,
-    pip => 'present',
+    version    => '2.7',
+    ensure     => present,
+    pip        => 'present',
     virtualenv => 'present',
   }
-  
-  python::virtualenv {'/opt/cowrie':
-    ensure       => present,
-    version      => '2.7',
-    venv_dir     => '/opt/cowrie/cowrie-env',
-    requirements => '/opt/cowrie/requirements.txt',
-    proxy        => $pip_proxy,
-    require      => [
-      Vcsrepo['/opt/cowrie'],
-      Class['python'],
-    ],
+
+  exec {'Create virtualenv':
+    command => 'virtualenv --python=python2.7 cowrie-env',
+    cwd     => $install_dir,
+    unless  => "test -d ${install_dir}/cowrie-env",
+    user    => $user,
+    require => Vcsrepo[$install_dir],
   }
+
 }
