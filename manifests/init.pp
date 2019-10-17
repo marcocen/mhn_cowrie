@@ -56,7 +56,7 @@ define mhn_cowrie (
   }
 
   exec {'Install/update requirements':
-    command => "cowrie-env/bin/pip install -r requirements.txt",
+    command => "${install_dir}/cowrie-env/bin/pip install -r requirements.txt",
     path    => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
     cwd     => $install_dir,
     user    => $user,
