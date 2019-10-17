@@ -8,6 +8,10 @@ define mhn_cowrie (
   Integer $port,
   String $user,
   String $pip_proxy,
+  String $hpf_server,
+  String $hpf_port,
+  String $hpf_id,
+  String $hpf_secret
 ) {
   $install_dir = '/opt/cowrie'
   if ! defined(Class['git']) { include ::git }
@@ -54,6 +58,26 @@ define mhn_cowrie (
     require => Exec['Create virtualenv'],
   }
 
+  file { "${instal_dir}/etc/cowrie.cfg":
+    ensure => present,
+    content => template('mhn_cowrie/cowrie.cfg.erb'),
+    require => Vcsrepo[$install_dir],
+  }
+
+  file_line {'AUTHBIND_ENABLED':
+    ensure => present,
+    path => "${install_dir}/bin/cowrie",
+    line => 'AUTHBIND_ENABLED=yes',
+    match => 'AUTHBIND_ENABLED=no',
+  }
+
+  file_line {'DAEMONIZE':
+    ensure => present,
+    path => "${install_dir}/bin/cowrie",
+    line => 'DAEMONIZE="-n"',
+    match => 'DAEMONIZE=""',
+  }
+  
   supervisor::program {'cowrie':
     ensure         => present,
     enable         => true,
@@ -63,7 +87,11 @@ define mhn_cowrie (
     stderr_logfile => "${install_dir}/var/log/cowrie/cowrie.err",
     autorestart    => true,
     user           => $user,
-    require        => Exec['Install/update requirements'],
+    require        => [
+      Exec['Install/update requirements'],
+      File["${install_dir}/etc/cowrie.cfg"],
+      File_line['AUTHBIND_ENABLED','DAEMONIZE'],
+    ],
   }
   
 }
