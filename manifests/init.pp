@@ -55,4 +55,12 @@ define mhn_cowrie (
     require => Vcsrepo[$install_dir],
   }
 
+  exec {'Install/update requirements':
+    command => "cowrie-env/bin/pip install -r requirements.txt",
+    path    => '/usr/bin:/usr/sbin:/bin:/usr/local/bin',
+    cwd     => $install_dir,
+    user    => $user,
+    require => Exec['Create virtualenv'],
+  }
+
 }
