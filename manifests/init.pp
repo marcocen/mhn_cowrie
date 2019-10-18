@@ -29,6 +29,19 @@ define mhn_cowrie (
       ensure => present,
     }
   }
+
+  if $port != 22 {
+    firewalld::custom_service{ 'cowrie-ssh':
+      short       => 'cowrie-ssh',
+      description => 'Cowrie honeypot ssh port',
+      port        => [
+        {
+          'port'     => "${port}", # Paso int a string
+          'protocol' => 'tcp',
+        },
+      ],
+    }
+  }
   
   file {$install_dir:
     ensure => directory,
