@@ -41,6 +41,12 @@ define mhn_cowrie (
         },
       ],
     }
+    ~>
+    firewalld_service { "Allow SSH connections to cowrie":
+      ensure  => present,
+      service => 'cowrie-ssh',
+      zone    => 'public',
+    }
   }
   
   file {$install_dir:
