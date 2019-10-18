@@ -29,6 +29,7 @@ describe 'mhn_cowrie' do
       }
       it { is_expected.to contain_class('python') }
       it { is_expected.to contain_file('/opt/cowrie/etc/cowrie.cfg') }
+      it { is_expected.to contain_firewalld_service('Allow SSH connections to cowrie') }
     end
   end
 end

@@ -10,3 +10,4 @@ fixtures:
      git: "puppetlabs/git"
      epel: "stahnma/epel"
      yumrepo_core: "puppetlabs/yumrepo_core"
+     firewalld: "crayfishx/firewalld"
