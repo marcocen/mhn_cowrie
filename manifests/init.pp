@@ -14,13 +14,22 @@ define mhn_cowrie (
   
 ) {
   $install_dir = '/opt/cowrie'
-  
-  if ! defined(Class['git']) { include ::git }
+
   ensure_packages(
     [gcc],
     {ensure => present},
   )
+  
+  if ! defined(Class['git']) {
+    include ::git
+  }
 
+  if ! defined(User[$user]) {
+    user {$user:
+      ensure => present,
+    }
+  }
+  
   file {$install_dir:
     ensure => directory,
     owner  => $user,
@@ -85,6 +94,7 @@ define mhn_cowrie (
     require        => [
       Exec['Install/update requirements'],
       File_line['DAEMONIZE'],
+      User[$user],
     ],
     subscribe => [File["${install_dir}/etc/cowrie.cfg"]],
   }
