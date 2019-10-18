@@ -36,7 +36,7 @@ define mhn_cowrie (
       description => 'Cowrie honeypot ssh port',
       port        => [
         {
-          'port'     => "${port}", # Paso int a string
+          'port'     => sprintf('%<x>s', { 'x' => $port}),
           'protocol' => 'tcp',
         },
       ],
