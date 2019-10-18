@@ -19,13 +19,19 @@ A module to add a cowrie honeypot
 
 ### What cowrie affects
 
-This module ensures that git is installed, clones the cowrie repo and configures it. In doing so it ensures that python2.7, pip and virtualenv are installed; it also installs supervisord.
+This module ensures that git is installed, clones the cowrie repo and
+configures it. In doing so it ensures that python2.7, pip and
+virtualenv are installed; it also installs supervisord.
 
 ### Setup Requirements 
 
-The supplied user is expected to be managed somewhere else, this module does not create any user.
+The supplied user is expected to be managed somewhere else, this
+module does not create any user.
 
-This module also does not manage firewall rules nor does it manage other software that may collide with the cowrie honeypot. For example, if you want cowrie to listen on port 22 you should disable ssh on that port elsewhere.
+This module also does not manage firewall rules nor does it manage
+other software that may collide with the cowrie honeypot. For example,
+if you want cowrie to listen on port 22 you should disable ssh on that
+port elsewhere.
 
 ### Beginning with cowrie
 
@@ -40,43 +46,82 @@ mhn_cowrie{'cowrie':
 
 ## Usage
 
-Include usage examples for common use cases in the **Usage** section. Show your users how to use your module to solve problems, and be sure to include code examples. Include three to five examples of the most important or common tasks a user can accomplish with your module. Show users how to accomplish more complex tasks that involve different types, classes, and functions working in tandem.
+The following is a full usage case where the cowrie user is created
+and the firewall port is opened.
+
+```
+firewalld::custom_service{ 'cowrie_ssh':
+  short       => 'cowrie-ssh',
+  description => 'Cowrie ssh service',
+  port        => [
+    {
+      'port'     => '2232',
+      'protocol' => 'tcp',
+    },
+  ],
+}
+
+user {'cowrie':
+  ensure => present,
+}
+
+mhn_cowrie{'cowrie':
+  user       => 'cowrie',
+  port       => 2232
+  hpf_server => 'mhn.local',
+  hpf_port   => 4237
+  hpf_id     => '91ded218-eaec-11e9-954a-000c299b8253',
+  hpf_secret => 'LId9U19VHuQOUnTU',
+  require    => User['cowrie']
+}
+```
 
 ## Reference
 
-This section is deprecated. Instead, add reference information to your code as Puppet Strings comments, and then use Strings to generate a REFERENCE.md in your module. For details on how to add code comments and generate documentation with Strings, see the Puppet Strings [documentation](https://puppet.com/docs/puppet/latest/puppet_strings.html) and [style guide](https://puppet.com/docs/puppet/latest/puppet_strings_style.html)
-
-If you aren't ready to use Strings yet, manually create a REFERENCE.md in the root of your module directory and list out each of your module's classes, defined types, facts, functions, Puppet tasks, task plans, and resource types and providers, along with the parameters for each.
-
-For each element (class, defined type, function, and so on), list:
-
-  * The data type, if applicable.
-  * A description of what the element does.
-  * Valid values, if the data type doesn't make it obvious.
-  * Default value, if any.
-
-For example:
-
-```
-### `pet::cat`
+### `mhn_cowrie`
 
 #### Parameters
 
-##### `meow`
+##### `user`
 
-Enables vocalization in your cat. Valid options: 'string'.
+The user that the cowrie service will be run as.
 
-Default: 'medium-loud'.
-```
+##### `port`
+
+The port where cowrie will listen for ssh connections.
+
+Defaults to 2222.
+
+##### `hpf_server`
+
+The HPFeeds server, in the intended use-case this will be the MHN
+server.
+
+##### `hpf_port` 
+
+The port where your HPF server accepts reports.
+
+Defaults to 10000
+
+##### `hpf_id`
+
+The UUID that this honeypot will report as to the HPF server.
+
+##### `hpf_secret`
+
+The secret that this honeypot will use to communicate with the HPF
+server.
+
 
 ## Limitations
 
-In the Limitations section, list any incompatibilities, known issues, or other warnings.
+As mentioned previously, this module does not create any users and
+does not manage ports or the services that run on them.
+
+This module is only tested con CentOS7. It might work on other RHEL7
+based distros but there are no warranties.
 
 ## Development
 
-In the Development section, tell other users the ground rules for contributing to your project and how they should submit their work.
-
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should consider using changelog). You can also add any additional sections you feel are necessary or important to include here. Please use the `## ` header.
+Any contributions are welcome in the form of Pull Requests on the main
+github repo.
