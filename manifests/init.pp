@@ -11,7 +11,6 @@ define mhn_cowrie (
   String $hpf_secret,
   Stdlib::Port $port = 2222,
   Stdlib::Port $hpf_port = 10000,
-  
 ) {
   $install_dir = '/opt/cowrie'
 
@@ -19,7 +18,7 @@ define mhn_cowrie (
     [gcc],
     {ensure => present},
   )
-  
+
   if ! defined(Class['git']) {
     include ::git
   }
@@ -41,19 +40,18 @@ define mhn_cowrie (
         },
       ],
     }
-    ~>
-    firewalld_service { 'Allow SSH connections to cowrie':
+    ~> firewalld_service { 'Allow SSH connections to cowrie':
       ensure  => present,
       service => 'cowrie-ssh',
       zone    => 'public',
     }
   }
-  
+
   file {$install_dir:
     ensure => directory,
     owner  => $user,
   }
-  
+
   vcsrepo {$install_dir:
     ensure   => present,
     provider => git,
@@ -88,19 +86,19 @@ define mhn_cowrie (
   }
 
   file { "${install_dir}/etc/cowrie.cfg":
-    ensure => present,
+    ensure  => present,
     content => template('mhn_cowrie/cowrie.cfg.erb'),
     require => Vcsrepo[$install_dir],
   }
 
   file_line {'DAEMONIZE':
-    ensure => present,
-    path => "${install_dir}/bin/cowrie",
-    line => 'DAEMONIZE="-n"',
-    match => 'DAEMONIZE=""',
+    ensure  => present,
+    path    => "${install_dir}/bin/cowrie",
+    line    => 'DAEMONIZE="-n"',
+    match   => 'DAEMONIZE=""',
     require => Vcsrepo[$install_dir],
   }
-  
+
   supervisor::program {'cowrie':
     ensure         => present,
     enable         => true,
@@ -115,7 +113,7 @@ define mhn_cowrie (
       File_line['DAEMONIZE'],
       User[$user],
     ],
-    subscribe => [File["${install_dir}/etc/cowrie.cfg"]],
+    subscribe      => [File["${install_dir}/etc/cowrie.cfg"]],
   }
-  
+
 }
