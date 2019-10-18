@@ -1,6 +1,6 @@
 {
   "name": "mcenturion-mhn_cowrie",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "author": "mcenturion",
   "summary": "Module for adding a cowrie sensor to mhn",
   "license": "Apache-2.0",

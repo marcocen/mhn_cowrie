@@ -1,9 +1,15 @@
-# @summary A short summary of the purpose of this defined type.
+# @summary Cowrie class for the Modern Honey Network
 #
-# A description of what this defined type does
+# This module configures a cowrie honeypot that send its logs through
+# hpfeeds to a MHN server.
 #
 # @example
-#   mhn_cowrie { 'namevar': }
+# mhn_cowrie { 'cowrie':
+#   user => 'cowrie',
+#   hpf_server => "mhn.local",
+#   hpf_id     => '91ded218-eaec-11e9-954a-000c299b8253',
+#   hpf_secret => 'LId9U19VHuQOUnTU',
+# }
 define mhn_cowrie (
   String $user,
   Stdlib::Host $hpf_server,
