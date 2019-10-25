@@ -36,13 +36,13 @@ define mhn_cowrie (
     }
   }
 
-  if $port != 22 {
+  if $ssh_port != 22 {
     firewalld::custom_service{ 'cowrie-ssh':
       short       => 'cowrie-ssh',
       description => 'Cowrie honeypot ssh port',
       port        => [
         {
-          'port'     => sprintf('%<x>s', { 'x' => $port}),
+          'port'     => sprintf('%<x>s', { 'x' => $ssh_port}),
           'protocol' => 'tcp',
         },
       ],
