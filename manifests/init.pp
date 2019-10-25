@@ -54,6 +54,24 @@ define mhn_cowrie (
     }
   }
 
+  $telnet_ports.each |Integer $port| {
+    firewalld::custom_service{ "cowrie-telnet-${port}":
+      short       => "cowrie-telnet-${port}",
+      description => "Cowrie honeypot telnet port ${port}",
+      port        => [
+        {
+          'port'     => sprintf('%<x>s', { 'x' => $port}),
+          'protocol' => 'tcp',
+        },
+      ],
+    }
+    ~> firewalld_service { "Allow Telnet connections on ${port} to cowrie":
+      ensure  => present,
+      service => "cowrie-telnet-${port}",
+      zone    => 'public',
+    }
+  }
+
   file {$install_dir:
     ensure => directory,
     owner  => $user,
