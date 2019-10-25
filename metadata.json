@@ -1,10 +1,12 @@
 {
   "name": "mcenturion-mhn_cowrie",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "mcenturion",
   "summary": "Module for adding a cowrie sensor to mhn",
   "license": "Apache-2.0",
   "source": "https://github.com/marcocen/mhn_cowrie",
+  "project_page": "https://github.com/marcocen/mhn_cowrie",
+  "issues_url": "https://github.com/marcocen/mhn_cowrie/issues",
   "dependencies": [
     {
       "name": "proletaryo-supervisor",
@@ -26,10 +28,10 @@
       "name": "puppetlabs-git",
       "version_requirement": ">= 0.5.0 < 1.0.0"
     },
-      {
-	  "name": "crayfishx-firewalld",
-	  "version_requirement": ">= 3.4.0 < 3.5.0"
-      }
+    {
+      "name": "crayfishx-firewalld",
+      "version_requirement": ">= 3.4.0 < 3.5.0"
+    }
   ],
   "operatingsystem_support": [
     {
@@ -42,7 +44,7 @@
   "requirements": [
     {
       "name": "puppet",
-      "version_requirement": ">= 4.10.0 < 7.0.0"
+      "version_requirement": ">= 6.10.0 < 7.0.0"
     }
   ],
   "pdk-version": "1.14.0",

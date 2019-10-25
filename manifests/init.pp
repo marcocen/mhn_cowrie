@@ -11,12 +11,13 @@
 #   hpf_secret => 'LId9U19VHuQOUnTU',
 # }
 define mhn_cowrie (
-  String $user,
   Stdlib::Host $hpf_server,
   String $hpf_id,
   String $hpf_secret,
-  Stdlib::Port $port = 2222,
+  String $user = 'cowrie',
+  Stdlib::Port $ssh_port = 2222,
   Stdlib::Port $hpf_port = 10000,
+  Optional[Array[Stdlib::Port]] $telnet_ports,
 ) {
   $install_dir = '/opt/cowrie'
 
