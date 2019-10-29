@@ -17,7 +17,7 @@ define mhn_cowrie (
   String $user = 'cowrie',
   Stdlib::Port $ssh_port = 2222,
   Stdlib::Port $hpf_port = 10000,
-  Optional[Array[Stdlib::Port]] $telnet_ports,
+  Optional[Array[Stdlib::Port]] $telnet_ports = undef,
 ) {
   $install_dir = '/opt/cowrie'
 
@@ -53,22 +53,23 @@ define mhn_cowrie (
       zone    => 'public',
     }
   }
-
-  $telnet_ports.each |Integer $port| {
-    firewalld::custom_service{ "cowrie-telnet-${port}":
-      short       => "cowrie-telnet-${port}",
-      description => "Cowrie honeypot telnet port ${port}",
-      port        => [
-        {
-          'port'     => sprintf('%<x>s', { 'x' => $port}),
-          'protocol' => 'tcp',
-        },
-      ],
-    }
-    ~> firewalld_service { "Allow Telnet connections on ${port} to cowrie":
-      ensure  => present,
-      service => "cowrie-telnet-${port}",
-      zone    => 'public',
+  if $telnet_ports {
+    $telnet_ports.each |Integer $port| {
+      firewalld::custom_service{ "cowrie-telnet-${port}":
+        short       => "cowrie-telnet-${port}",
+        description => "Cowrie honeypot telnet port ${port}",
+        port        => [
+          {
+            'port'     => sprintf('%<x>s', { 'x' => $port}),
+            'protocol' => 'tcp',
+          },
+        ],
+      }
+      ~> firewalld_service { "Allow Telnet connections on ${port} to cowrie":
+        ensure  => present,
+        service => "cowrie-telnet-${port}",
+        zone    => 'public',
+      }
     }
   }
 
