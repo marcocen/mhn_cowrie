@@ -52,7 +52,34 @@ define mhn_cowrie (
       service => 'cowrie-ssh',
       zone    => 'public',
     }
+  } else {
+    firewalld_service { 'Allow SSH connections to cowrie':
+      ensure  => present,
+      service => 'ssh',
+      zone    => 'public',
+    }
+
   }
+
+  if $ssh_port < 1024 {
+    file {
+      '/root/rpms':
+        ensure => directory,
+        ;
+      '/root/rpms/authbind-2.1.1-0.1.x86_64.rpm':
+        ensure => present,
+        source => 'puppet:///modules/mhn_cowrie/authbind-2.1.1-0.1.x86_64.rpm',
+    }
+    package {'authbind-2.1.1':
+      ensure => installed,
+      provider => rpm,
+      source => '/root/rpms/authbind-2.1.1-0.1.x86_64.rpm',
+      require => File['/root/rpms/authbind-2.1.1-0.1.x86_64.rpm'],
+    }
+  }
+
+
+
   if $telnet_ports {
     $telnet_ports.each |Integer $port| {
       firewalld::custom_service{ "cowrie-telnet-${port}":
