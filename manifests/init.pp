@@ -36,29 +36,20 @@ define mhn_cowrie (
     }
   }
 
-  if $ssh_port != 22 {
-    firewalld::custom_service{ 'cowrie-ssh':
-      short       => 'cowrie-ssh',
-      description => 'Cowrie honeypot ssh port',
-      port        => [
-        {
-          'port'     => sprintf('%<x>s', { 'x' => $ssh_port}),
-          'protocol' => 'tcp',
-        },
-      ],
-    }
-    ~> firewalld_service { 'Allow SSH connections to cowrie':
-      ensure  => present,
-      service => 'cowrie-ssh',
-      zone    => 'public',
-    }
-  } else {
-    firewalld_service { 'Allow SSH connections to cowrie':
-      ensure  => present,
-      service => 'ssh',
-      zone    => 'public',
-    }
-
+  firewalld::custom_service{ 'cowrie-ssh':
+    short       => 'cowrie-ssh',
+    description => 'Cowrie honeypot ssh port',
+    port        => [
+      {
+        'port'     => sprintf('%<x>s', { 'x' => $ssh_port}),
+        'protocol' => 'tcp',
+      },
+    ],
+  }
+  ~> firewalld_service { 'Allow SSH connections to cowrie':
+    ensure  => present,
+    service => 'cowrie-ssh',
+    zone    => 'public',
   }
 
   if $ssh_port < 1024 {
