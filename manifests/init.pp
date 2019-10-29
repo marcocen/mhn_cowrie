@@ -71,10 +71,23 @@ define mhn_cowrie (
         source => 'puppet:///modules/mhn_cowrie/authbind-2.1.1-0.1.x86_64.rpm',
     }
     package {'authbind-2.1.1':
-      ensure => installed,
+      ensure   => installed,
       provider => rpm,
-      source => '/root/rpms/authbind-2.1.1-0.1.x86_64.rpm',
-      require => File['/root/rpms/authbind-2.1.1-0.1.x86_64.rpm'],
+      source   => '/root/rpms/authbind-2.1.1-0.1.x86_64.rpm',
+      require  => File['/root/rpms/authbind-2.1.1-0.1.x86_64.rpm'],
+    }
+    file_line {'authbind':
+      ensure  => present,
+      path    => "${install_dir}/bin/cowrie",
+      line    => 'AUTHBIND_ENABLED=yes',
+      match   => 'AUTHBIND_ENABLED=no',
+      require => Vcsrepo[$install_dir],
+    }
+    file {"/etc/authbind/byport/${ssh_port}":
+      ensure  => present,
+      owner   => 'cowrie',
+      mode    => '0770',
+      require => Package['authbind-2.1.1'],
     }
   }
 
