@@ -13,7 +13,7 @@
 
 ## Description
 
-A module to add a cowrie honeypot 
+A module to add a cowrie honeypot
 
 ## Setup
 
@@ -27,7 +27,6 @@ virtualenv are installed; it also installs supervisord.
 
 ```
 mhn_cowrie{'cowrie':
-	user       => 'cowrie',
 	hpf_server => 'mhn.local',
 	hpf_id     => '91ded218-eaec-11e9-954a-000c299b8253',
     hpf_secret => 'LId9U19VHuQOUnTU',
@@ -40,12 +39,13 @@ The following is a full usage case where every parameter is configured
 
 ```
 mhn_cowrie{'cowrie':
-  user       => 'cowrie',
-  port       => 2232
-  hpf_server => 'mhn.local',
-  hpf_port   => 4237
-  hpf_id     => '91ded218-eaec-11e9-954a-000c299b8253',
-  hpf_secret => 'LId9U19VHuQOUnTU'
+  user        => 'cowrie',
+  ssh_port    => 2232
+  hpf_server  => 'mhn.local',
+  hpf_port    => 4237,
+  hpf_id      => '91ded218-eaec-11e9-954a-000c299b8253',
+  hpf_secret  => 'LId9U19VHuQOUnTU',
+  telnet_port => 2223,
 }
 ```
 
@@ -59,7 +59,9 @@ mhn_cowrie{'cowrie':
 
 The user that the cowrie service will be run as.
 
-##### `port`
+Defaults to 'cowrie'.
+
+##### `ssh_port`
 
 The port where cowrie will listen for ssh connections.
 
@@ -70,11 +72,11 @@ Defaults to 2222.
 The HPFeeds server, in the intended use-case this will be the MHN
 server.
 
-##### `hpf_port` 
+##### `hpf_port`
 
 The port where your HPF server accepts reports.
 
-Defaults to 10000
+Defaults to 10000.
 
 ##### `hpf_id`
 
@@ -85,6 +87,11 @@ The UUID that this honeypot will report as to the HPF server.
 The secret that this honeypot will use to communicate with the HPF
 server.
 
+##### `telnet_ports`
+
+The ports where cowrie will listen for telnet connections.
+
+Defaults to undef.
 
 ## Limitations
 

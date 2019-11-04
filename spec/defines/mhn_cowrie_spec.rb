@@ -12,7 +12,7 @@ describe 'mhn_cowrie' do
   end
 
   on_supported_os.each do |os, os_facts|
-    context "on #{os}" do
+    context "base test on #{os}" do
       let(:facts) { os_facts }
 
       it { is_expected.to compile }
@@ -45,7 +45,7 @@ describe 'mhn_cowrie' do
   end
 
   on_supported_os.each do |os, os_facts|
-    context "on #{os}" do
+    context "telnet ports on #{os}" do
       let(:facts) { os_facts }
 
       it { is_expected.to compile }
