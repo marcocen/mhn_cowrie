@@ -15,6 +15,7 @@ define mhn_cowrie (
   String $hpf_id,
   String $hpf_secret,
   String $user = 'cowrie',
+  String $hostname = 'svr04',
   Stdlib::Port $ssh_port = 2222,
   Stdlib::Port $hpf_port = 10000,
   Optional[Array[Stdlib::Port]] $telnet_ports = undef,
